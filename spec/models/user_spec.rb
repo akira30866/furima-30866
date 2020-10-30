@@ -76,4 +76,168 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '新規登録/本人情報' do
+    before do
+      @user = FactoryBot.build(:user)
+    end
+    
+    # family_nameに関する記述
+
+    it 'family_nameが空だと登録できないこと' do
+      @user.family_name = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name can't be blank", "Family name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'family_nameに英字が入っていると登録できないこと' do
+      @user.family_name = '山da'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'family_nameに数字が入っていると登録できないこと' do
+      @user.family_name ='山1'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'family_nameに記号が入っていると登録できないこと' do
+      @user.family_name ='山＠田'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'family_nameに半角文字が入っていると登録できないこと' do
+      @user.family_name ='山ﾀﾞ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    # first_nameに関する記述
+
+    it 'first_nameが空だと登録できないこと' do
+      @user.first_name = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name can't be blank", "First name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'first_nameに英字が入っていること登録できないこと' do
+      @user.first_name ='たrou'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'first_nameに数字が入っていると登録できないこと' do
+      @user.first_name ='た1'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'first_nameに記号が入っていると登録できないこと' do
+      @user.first_name ='太＠郎'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    it 'first_nameに半角文字が入っていると登録できないこと' do
+      @user.first_name ='ﾀロウ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name 全角（漢字・ひらがな・カタカナ）で入力してください")
+    end
+
+    # family_name_kanaに関する記述
+
+    it 'family_name_kanaが空だと登録できないこと' do
+      @user.family_name_kana = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name kana can't be blank","Family name kana 全角カタカナで入力してください")
+    end
+
+    it 'family_name_kanaに英字が入っていると登録できないこと' do
+      @user.family_name_kana = 'yamaダ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name kana 全角カタカナで入力してください")
+    end
+
+    it 'family_name_kanaに数字が入っていると登録できないこと' do
+      @user.family_name_kana = '1ダ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name kana 全角カタカナで入力してください")
+    end
+
+    it 'family_name_kanaに平仮名が入っていると登録できないこと' do
+      @user.family_name_kana = 'やまダ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name kana 全角カタカナで入力してください")
+    end
+
+    it 'family_name_kanaに漢字が入っていると登録できないこと' do
+      @user.family_name_kana = '山ダ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name kana 全角カタカナで入力してください")
+    end
+
+    it 'family_name_kanaに記号が入っていると登録できないこと' do
+      @user.family_name_kana = 'ヤマ＠ダ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name kana 全角カタカナで入力してください")
+    end
+
+    it 'family_name_kanaに半角文字が入っていると登録できないこと' do
+      @user.family_name_kana = 'ﾔﾏダ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Family name kana 全角カタカナで入力してください")
+    end
+
+    # first_name_kanaに関する記述
+    it 'first_name_kanaが空だと登録できないこと' do
+      @user.first_name_kana = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name kana can't be blank","First name kana 全角カタカナで入力してください")
+    end
+
+    it 'first_name_kanaに英字が入っていると登録できないこと' do
+      @user.first_name_kana = 'taroウ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name kana 全角カタカナで入力してください")
+    end
+
+    it 'first_name_kana数字が入っていると登録できないこと' do
+      @user.first_name_kana = '1ウ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name kana 全角カタカナで入力してください")
+    end
+
+    it 'first_name_kanaに平仮名が入っていると登録できないこと' do
+      @user.first_name_kana = 'たろウ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name kana 全角カタカナで入力してください")
+    end
+
+    it 'first_name_kanaに漢字が入っていると登録できないこと' do
+      @user.first_name_kana = '太ロウ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name kana 全角カタカナで入力してください")
+    end
+
+    it 'first_name_kanaに記号が入っていると登録できないこと' do
+      @user.first_name_kana = 'タロ＠ウ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name kana 全角カタカナで入力してください")
+    end
+
+    it 'first_name_kanaに半角文字が入っていると登録できないこと' do
+      @user.first_name_kana = 'ﾀﾛウ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name kana 全角カタカナで入力してください")
+    end
+
+    # birthdayに関する記述
+    it 'birthdayが空だと登録できないこと' do
+      @user.birthday = ''
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Birthday can't be blank")
+    end
+
+  end
 end
