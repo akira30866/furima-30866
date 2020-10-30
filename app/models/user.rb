@@ -9,10 +9,19 @@ class User < ApplicationRecord
   VALID_NAME_KANA_REGEX = /\A[ァ-ン]+\z/
 
   validates :password,                         format: {with:VALID_PASSWORD_REGEX, message:"英字と数字の両方を含めて設定してください"}
-  validates :nickname,         presence: true
-  validates :family_name,      presence: true, format: {with:VALID_NAME_REGEX, message:"全角（漢字・ひらがな・カタカナ）で入力してください"}
-  validates :first_name,       presence: true, format: {with:VALID_NAME_REGEX, message:"全角（漢字・ひらがな・カタカナ）で入力してください"}
-  validates :family_name_kana, presence: true, format: {with:VALID_NAME_KANA_REGEX, message:"全角カタカナで入力してください"}
-  validates :first_name_kana,  presence: true, format: {with:VALID_NAME_KANA_REGEX, message:"全角カタカナで入力してください"}
-  validates :birthday,         presence: true
+  
+  with_options presence: true do
+    validates :nickname
+    validates :birthday
+
+    with_options format: {with:VALID_NAME_REGEX, message:"全角（漢字・ひらがな・カタカナ）で入力してください"} do
+      validates :family_name
+      validates :first_name
+    end
+
+    with_options format: {with:VALID_NAME_KANA_REGEX, message:"全角カタカナで入力してください"} do
+      validates :family_name_kana
+      validates :first_name_kana
+    end
+  end
 end
