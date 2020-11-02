@@ -3,4 +3,8 @@ class Item < ApplicationRecord
   has_one_attached :image
   extend ActiveHash::Associations::AcitveRecordExtensions
   belongs_to :category
+  belongs_to :conditon
+
+  # ActiveHashのバリデーションに注意
+  
 end
