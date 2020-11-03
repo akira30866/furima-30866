@@ -4,12 +4,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
+  has_many :items
+
   VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i
   VALID_NAME_REGEX = /\A[ぁ-んァ-ン一-龥]+\z/
   VALID_NAME_KANA_REGEX = /\A[ァ-ン]+\z/
 
-  validates :password,                         format: {with:VALID_PASSWORD_REGEX, message:"英字と数字の両方を含めて設定してください"}
-  
+  validates :password, format: {with:VALID_PASSWORD_REGEX, message:"英字と数字の両方を含めて設定してください"}
   with_options presence: true do
     validates :nickname
     validates :birthday
