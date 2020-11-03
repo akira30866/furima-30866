@@ -2,15 +2,13 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to :category
-  belongs_to :condition
-  belongs_to :delivery_charge
-  belongs_to :days_to_ship
-  belongs_to :prefecture
+  belongs_to_active_hash :category
+  belongs_to_active_hash :condition
+  belongs_to_active_hash :delivery_charge
+  belongs_to_active_hash :days_to_ship
+  belongs_to_active_hash :prefecture
 
   # ActiveHashのバリデーションに注意
-  VALID_PRICE_REGEX = /\A[0-9]+\z/
-
   with_options presence: true do
     validates :name
     validates :description
@@ -20,7 +18,7 @@ class Item < ApplicationRecord
     validates :delivery_charge
     validates :prefecture
     validates :days_to_ship
-    validates :price, format: { with: VALID_PRICE_REGEX }, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
+    validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
   end
 
   with_options numericality: { other_than: 1, message: "選択してください" } do
