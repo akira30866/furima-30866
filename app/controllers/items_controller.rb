@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   # アクションの設定については実装に応じて追記
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :find_item, only: [:show, :edit, :update]
+  before_action :find_item, only: [:show, :edit, :update, :destroy]
   before_action :move_to_index, only: [:edit]
 
   def index
@@ -36,6 +36,8 @@ class ItemsController < ApplicationController
   end
 
   def destroy
+    @item.destroy
+    redirect_to root_path
   end
 
   private
