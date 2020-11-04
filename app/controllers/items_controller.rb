@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   # アクションの設定については実装に応じて追記
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
   def index
     @items = Item.includes(:user).order("created_at DESC")
   end
